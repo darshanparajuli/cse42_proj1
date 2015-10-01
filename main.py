@@ -1,5 +1,20 @@
 from pathlib import Path
 
+ACTIONS = {'N':True, 'E':True, 'S':True, 'P':False, 'F':False, 'D':False, 'T':False}
+
+def verify_action(action: str, arg: str) -> bool:
+    if action == None:
+        return False
+    
+    available_actions = ACTIONS.keys()
+    if action in available_actions:
+        if ACTIONS[action]:
+            return arg != None and len(arg) != 0
+        else:
+            return True
+    else:
+        return False
+
 def search_by_name(root: str, file_name: str, result: list) -> None:
     files = Path(root).iterdir()
     for f in files:
@@ -17,17 +32,30 @@ def function_NES(root:str, first_letter:str, last_part:str):
         print(result)
 
 def main() -> None:
-    root = input()
+    root = input().strip()
     while not Path(root).is_dir():
         print("ERROR")
-        root = input()
+        root = input().strip()
 
-    flag = input()
+    second_line = input().strip()
+
+    action = None
+    arg = None
+    if len(second_line) > 2:
+        action = second_line[0]
+        arg = second_line[2:] if len(second_line) > 2 else None
+
+    while not verify_action(action, arg):
+        print("ERROR")
+        second_line = input().strip()
+        
+        if len(second_line) > 2:
+            action = second_line[0]
+            arg = second_line[2:] if len(second_line) > 2 else None
+        else:
+            action = None
     
-    first_letter = flag[0]
-    last_part = flag[2:]
-
-    function_NES(root, first_letter, last_part)
+    function_NES(root, action, arg)
         
 
 if __name__ == '__main__':
