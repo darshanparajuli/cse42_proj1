@@ -25,11 +25,27 @@ def search_by_name(root: str, file_name: str, result: list) -> None:
                 result.append(f)
                 
 
-def function_NES(root:str, first_letter:str, last_part:str):
+def function_N(root:str, first_letter:str, last_part:str) -> None:
     if first_letter == 'N':
         result = []
         search_by_name(root, last_part, result)
         print(result)
+
+def search_by_ext(root:str, file_ext:str, result:list) -> None:
+    files = Path(root).iterdir()
+    for f in files:
+        if (f.is_dir()):
+            search_by_ext(f.resolve(), file_ext, result)
+        else:
+            if (f.suffix == file_ext):
+                result.append(f)
+
+def search_by_size(root:str, file_size:int, result) -> None:
+    pass
+    
+
+
+call_functions_dict = {"N":search_by_name, "E":search_by_ext, "S":search_by_size}
 
 def main() -> None:
     root = input().strip()
@@ -54,8 +70,11 @@ def main() -> None:
             arg = second_line[2:] if len(second_line) > 2 else None
         else:
             action = None
-    
-    function_NES(root, action, arg)
+            
+    if ACTIONS[action]:
+        call_functions_dict[action](arg)
+    else:
+        call_finctions_dict[action]()
         
 
 if __name__ == '__main__':
