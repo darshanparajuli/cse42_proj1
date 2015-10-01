@@ -1,6 +1,6 @@
 from pathlib import Path
 
-def search_by_name(root:str, file_name:str, result):
+def search_by_name(root: str, file_name: str, result: list) -> None:
     files = Path(root).iterdir()
     for f in files:
         if (f.is_dir()):
@@ -16,7 +16,7 @@ def function_NES(root:str, first_letter:str, last_part:str):
         search_by_name(root, last_part, result)
         print(result)
 
-def main():
+def main() -> None:
     root = input()
     while not Path(root).is_dir():
         print("ERROR")
@@ -26,7 +26,7 @@ def main():
     
     first_letter = flag[0]
     last_part = flag[2:]
-    # print(first_letter, last_part)
+
     function_NES(root, first_letter, last_part)
         
 
