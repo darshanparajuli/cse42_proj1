@@ -79,14 +79,13 @@ def print_file_paths(search_result: list) -> None:
     for f in search_result:
         print(str(f))
 
-
+        
 def open_read_first_line(search_result:list) -> None:
     for file in search_result:
         opened_file = None
         try:
             opened_file = open(str(file), 'r')
-            all_words = opened_file.readline()
-            print(str(all_words))
+            print(opened_file.readline())
         except:
             print('Could not open file {}'.format(str(file)))
         finally:
@@ -103,8 +102,6 @@ def handle_actions(action: str, search_result: list) -> None:
         pass
     else: # T
         pass
-
-
     
 
 def main() -> None:
