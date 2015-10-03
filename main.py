@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import shutil
 
 def verify_search_command(action: str, arg: str) -> bool:
     search_commands = ['N', 'E', 'S']
@@ -85,12 +86,21 @@ def open_read_first_line(search_result:list) -> None:
         opened_file = None
         try:
             opened_file = open(str(file), 'r')
-            print(opened_file.readline())
+            print(opened_file.readline().rstrip(os.linesep))
         except:
             print('Could not open file {}'.format(str(file)))
         finally:
             if opened_file != None:
                 opened_file.close()
+
+def copy_and_add_dup(search_result:list) -> None:
+    for file in search_result:
+        dup_file_name = str(file) + '.dup'
+        try:
+            shutil.copyfile(str(file), dup_file_name, follow_symlinks = False)
+        except PermissionError:
+            print("Access denied: {}".format(dup_file_name))
+
 
 
 def handle_actions(action: str, search_result: list) -> None:
@@ -99,7 +109,7 @@ def handle_actions(action: str, search_result: list) -> None:
     elif action == 'F':
         open_read_first_line(search_result)
     elif action == 'D':
-        pass
+        copy_and_add_dup(search_result)
     else: # T
         pass
     
