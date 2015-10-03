@@ -82,27 +82,34 @@ def print_file_paths(search_result: list) -> None:
 
         
 def open_read_first_line(search_result:list) -> None:
-    for file in search_result:
+    for f in search_result:
         opened_file = None
         try:
-            opened_file = open(str(file), 'r')
+            opened_file = open(str(f), 'r')
+            print(str(f))
             print(opened_file.readline().rstrip(os.linesep))
         except:
-            print('Could not open file {}'.format(str(file)))
+            print('Could not open file {}'.format(str(f)))
         finally:
             if opened_file != None:
                 opened_file.close()
 
 def copy_and_add_dup(search_result:list) -> None:
-    for file in search_result:
-        dup_file_name = str(file) + '.dup'
+    for f in search_result:
+        dup_file_name = str(f) + '.dup'
         try:
-            shutil.copyfile(str(file), dup_file_name, follow_symlinks = False)
+            shutil.copyfile(str(f), dup_file_name, follow_symlinks = False)
         except PermissionError:
             print("Access denied: {}".format(dup_file_name))
 
+def modify_lastmodified(search_result: list) -> None:
+    for f in search_result:
+        try:
+            f.touch()
+        except PermissionError:
+            print("Access denied: {}".format(f))
 
-
+            
 def handle_actions(action: str, search_result: list) -> None:
     if action == 'P':
         print_file_paths(search_result)
@@ -111,8 +118,7 @@ def handle_actions(action: str, search_result: list) -> None:
     elif action == 'D':
         copy_and_add_dup(search_result)
     else: # T
-        pass
-    
+        modify_lastmodified(search_result)
 
 def main() -> None:
     root = input().strip()
