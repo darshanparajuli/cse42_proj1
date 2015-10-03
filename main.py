@@ -79,15 +79,32 @@ def print_file_paths(search_result: list) -> None:
     for f in search_result:
         print(str(f))
 
+
+def open_read_first_line(search_result:list) -> None:
+    for file in search_result:
+        opened_file = None
+        try:
+            opened_file = open(str(file), 'r')
+            all_words = opened_file.readline()
+            print(str(all_words))
+        except:
+            print('Could not open file {}'.format(str(file)))
+        finally:
+            if opened_file != None:
+                opened_file.close()
+
+
 def handle_actions(action: str, search_result: list) -> None:
     if action == 'P':
         print_file_paths(search_result)
     elif action == 'F':
-        pass
+        open_read_first_line(search_result)
     elif action == 'D':
         pass
     else: # T
         pass
+
+
     
 
 def main() -> None:
