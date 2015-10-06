@@ -31,7 +31,7 @@ def search_by_name(root: str, file_name: str, search_result: list) -> None:
     files = Path(root).iterdir()
     try:
         for f in files:
-            if f.is_dir():
+            if f.is_dir() and not f.is_symlink():
                 search_by_name(str(f), file_name, search_result)
             elif f.exists():
                 if (f.name == file_name):
@@ -43,7 +43,7 @@ def search_by_ext(root:str, file_ext:str, search_result: list) -> None:
     files = Path(root).iterdir()
     try:
         for f in files:
-            if f.is_dir():
+            if f.is_dir() and not f.is_symlink():
                 search_by_ext(str(f.resolve()), file_ext, search_result)
             elif f.exists():
                 if (f.suffix == file_ext):
@@ -56,7 +56,7 @@ def search_by_size(root:str, file_size:int, search_result: list) -> None:
     try:
         for f in files:
             file_path = str(f)
-            if f.is_dir():
+            if f.is_dir() and not f.is_symlink():
                 search_by_size(file_path, file_size, search_result)
             elif f.exists():
                 if os.path.getsize(file_path) > file_size:
@@ -80,7 +80,6 @@ def print_file_paths(search_result: list) -> None:
     for f in search_result:
         print(str(f))
 
-        
 def open_read_first_line(search_result:list) -> None:
     for f in search_result:
         opened_file = None
@@ -154,6 +153,5 @@ def main() -> None:
 
     handle_actions(action, search_result)
         
-
 if __name__ == '__main__':
     main()
