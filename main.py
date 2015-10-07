@@ -143,7 +143,6 @@ def main() -> None:
         else:
             search_command = None
 
-    
     search_result = handle_search(root, search_command, arg)
 
     action = input()
