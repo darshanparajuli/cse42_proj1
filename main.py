@@ -104,7 +104,7 @@ def open_read_first_line(search_result:list) -> None:
             opened_file = open(str(f), 'r')
             print(str(f))
             print(opened_file.readline().rstrip(os.linesep))
-        except:
+        except PermissionError:
             print('Could not open file {}'.format(str(f)))
         finally:
             if opened_file != None:
