@@ -1,11 +1,12 @@
-# Darshan Parajuli Michael Zarour 80773425
-
-# Project 1
+# Darshan Parajuli 16602518
+# Michael Zarour 80773425
 # ICS 32 Fall 2015
+# Project 1
 
 from pathlib import Path
 import os
 import shutil
+
 
 def is_integer(arg: str) -> bool:
     try:
@@ -14,7 +15,7 @@ def is_integer(arg: str) -> bool:
     except ValueError:
         return False
 
-    
+
 def verify_search_command(action: str, arg: str) -> bool:
     search_commands = ['N', 'E', 'S']
 
@@ -146,7 +147,7 @@ def get_directory() -> str:
             return root
         else:
             print("ERROR")
-        
+
 
 def get_search_command_and_arg() -> 'tuple of commands and action':
     second_line = input().strip()
@@ -178,13 +179,13 @@ def get_action() -> str:
         else:
             print("ERROR")
 
-            
+
 def main() -> None:
     root = get_directory()
     search_command, arg = get_search_command_and_arg()
     search_result = handle_search(root, search_command, arg)
     action = get_action()
-    
+
     handle_actions(action, search_result)
 
 
