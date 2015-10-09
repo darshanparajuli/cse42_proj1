@@ -173,7 +173,7 @@ def get_search_command_and_arg() -> 'tuple of commands and action':
 
 def get_action() -> str:
     while True:
-        action = input()
+        action = input().strip()
         if verify_action(action):
             return action
         else:
