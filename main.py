@@ -2,12 +2,13 @@ from pathlib import Path
 import os
 import shutil
 
+
 def verify_search_command(action: str, arg: str) -> bool:
     search_commands = ['N', 'E', 'S']
 
     if action == None:
         return False
-    
+
     if action in search_commands:
         if arg == None or len(arg) == 0:
             return False
@@ -23,10 +24,12 @@ def verify_search_command(action: str, arg: str) -> bool:
     else:
         return False
 
+
 def verify_action(action: str) -> bool:
     actions = ['P', 'F', 'D', 'T']
     return action in actions
-    
+
+
 def search_by_name(root: str, file_name: str, search_result: list) -> None:
     files = Path(root).iterdir()
     try:
@@ -38,7 +41,8 @@ def search_by_name(root: str, file_name: str, search_result: list) -> None:
                     search_result.append(f)
     except PermissionError:
         print("Access denied: {}".format(root))
-                
+
+
 def search_by_ext(root:str, file_ext:str, search_result: list) -> None:
     files = Path(root).iterdir()
     try:
@@ -50,6 +54,7 @@ def search_by_ext(root:str, file_ext:str, search_result: list) -> None:
                     search_result.append(f)
     except PermissionError:
         print("Access denied: {}".format(root))
+
 
 def search_by_size(root:str, file_size:int, search_result: list) -> None:
     files = Path(root).iterdir()
@@ -63,10 +68,11 @@ def search_by_size(root:str, file_size:int, search_result: list) -> None:
                     search_result.append(f)
     except PermissionError:
         print("Access denied: {}".format(root))
-                
+
+
 def handle_search(root:str, action:str, arg:str) -> None:
     search_result = []
-    
+
     if action == 'N':
         search_by_name(root, arg, search_result)
     elif action == 'E':
@@ -76,9 +82,11 @@ def handle_search(root:str, action:str, arg:str) -> None:
 
     return search_result
 
+
 def print_file_paths(search_result: list) -> None:
     for f in search_result:
         print(str(f))
+
 
 def open_read_first_line(search_result:list) -> None:
     for f in search_result:
@@ -93,6 +101,7 @@ def open_read_first_line(search_result:list) -> None:
             if opened_file != None:
                 opened_file.close()
 
+
 def copy_and_add_dup(search_result:list) -> None:
     for f in search_result:
         dup_file_name = str(f) + '.dup'
@@ -101,6 +110,7 @@ def copy_and_add_dup(search_result:list) -> None:
         except PermissionError:
             print("Access denied: {}".format(dup_file_name))
 
+
 def modify_lastmodified(search_result: list) -> None:
     for f in search_result:
         try:
@@ -108,7 +118,7 @@ def modify_lastmodified(search_result: list) -> None:
         except PermissionError:
             print("Access denied: {}".format(f))
 
-            
+
 def handle_actions(action: str, search_result: list) -> None:
     if action == 'P':
         print_file_paths(search_result)
@@ -118,6 +128,7 @@ def handle_actions(action: str, search_result: list) -> None:
         copy_and_add_dup(search_result)
     else: # T
         modify_lastmodified(search_result)
+
 
 def main() -> None:
     root = input().strip()
@@ -151,6 +162,6 @@ def main() -> None:
         action = input()
 
     handle_actions(action, search_result)
-        
+
 if __name__ == '__main__':
     main()
