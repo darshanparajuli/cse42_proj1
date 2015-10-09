@@ -2,7 +2,14 @@ from pathlib import Path
 import os
 import shutil
 
+def is_integer(arg: str) -> bool:
+    try:
+        int(arg)
+        return True
+    except ValueError:
+        return False
 
+    
 def verify_search_command(action: str, arg: str) -> bool:
     search_commands = ['N', 'E', 'S']
 
@@ -16,11 +23,7 @@ def verify_search_command(action: str, arg: str) -> bool:
             if action != 'S':
                 return True
             else:
-                try:
-                    int(arg)
-                    return True
-                except:
-                    return False
+                return is_integer(arg)
     else:
         return False
 
@@ -130,12 +133,17 @@ def handle_actions(action: str, search_result: list) -> None:
         modify_lastmodified(search_result)
 
 
-def main() -> None:
-    root = input().strip()
-    while not Path(root).is_dir():
-        print("ERROR")
+def get_directory() -> str:
+    while True:
         root = input().strip()
+        path = Path(root)
+        if path.is_dir() and not path.is_symlink():
+            return root
+        else:
+            print("ERROR")
+        
 
+def get_search_command_and_arg() -> 'tuple of commands and action':
     second_line = input().strip()
 
     search_command = None
@@ -154,14 +162,26 @@ def main() -> None:
         else:
             search_command = None
 
-    search_result = handle_search(root, search_command, arg)
+    return search_command, arg
 
-    action = input()
-    while not verify_action(action):
-        print("ERROR")
+
+def get_action() -> str:
+    while True:
         action = input()
+        if verify_action(action):
+            return action
+        else:
+            print("ERROR")
 
+            
+def main() -> None:
+    root = get_directory()
+    search_command, arg = get_search_command_and_arg()
+    search_result = handle_search(root, search_command, arg)
+    action = get_action()
+    
     handle_actions(action, search_result)
+
 
 if __name__ == '__main__':
     main()
