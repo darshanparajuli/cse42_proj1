@@ -34,11 +34,6 @@ def verify_search_command(action: str, arg: str) -> bool:
         return False
 
 
-def verify_action(action: str) -> bool:
-    actions = ['P', 'F', 'D', 'T']
-    return action in actions
-
-
 def search_by_name(root: str, file_name: str, search_result: list) -> None:
     files = Path(root).iterdir()
     try:
@@ -172,9 +167,10 @@ def get_search_command_and_arg() -> 'tuple of commands and action':
 
 
 def get_action() -> str:
+    actions = ['P', 'F', 'D', 'T']
     while True:
         action = input().strip()
-        if verify_action(action):
+        if action in actions:
             return action
         else:
             print("ERROR")
