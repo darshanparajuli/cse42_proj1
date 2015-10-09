@@ -1,3 +1,8 @@
+# Darshan Parajuli Michael Zarour 80773425
+
+# Project 1
+# ICS 32 Fall 2015
+
 from pathlib import Path
 import os
 import shutil
