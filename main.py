@@ -52,7 +52,7 @@ def search_by_ext(root:str, file_ext:str, search_result: list) -> None:
     try:
         for f in files:
             if f.is_dir() and not f.is_symlink():
-                search_by_ext(str(f.resolve()), file_ext, search_result)
+                search_by_ext(str(f), file_ext, search_result)
             elif f.exists():
                 if (f.suffix == file_ext):
                     search_result.append(f)
@@ -106,7 +106,7 @@ def open_read_first_line(search_result:list) -> None:
                 opened_file.close()
 
 
-def copy_and_add_dup(search_result:list) -> None:
+def copy_and_add_dup(search_result: list) -> None:
     for f in search_result:
         dup_file_name = str(f) + '.dup'
         try:
